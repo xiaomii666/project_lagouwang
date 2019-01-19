@@ -1,0 +1,12 @@
+.navbar {
+    border-radius: 0;
+}
+
+.container {
+    width: 1370px;
+}
+
+.container-fluid {
+    padding-left: 50px;
+    padding-right: 50px;
+}
