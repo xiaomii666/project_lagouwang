@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="">
     <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/position.css">
@@ -18,50 +17,55 @@
     <main>
         <div class="container">
             <h3>职位管理</h3>
-            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#position_myModal">添加</button>
+            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#position_myModal">添加职位</button>
         </div>
-        <div class="table-responsive container ">
-            <table class="table-hover table table-bordered ">
+        <div class="table-responsive container">
+            <table class="table-hover table table-bordered">
                 <thead>
                     <tr>
-                        <th class="col-lg-1 ">序号</th>
+                        <th class="col-lg-1">序号</th>
                         <th>公司logo</th>
                         <th>职位名称</th>
                         <th>公司名称</th>
-                        <th>工作经验</th>
-                        <th>职位类型</th>
                         <th>工作地点</th>
                         <th>职位薪资</th>
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>
-                            <a href="javascript:; " class="editBtn ">编辑</a>
-                            <!-- <a href="javascript:; " class="okBtn ">确定</a>
-                            <a href="javascript:; " class="cancelBtn ">取消</a> -->
-                            <a href="javascript:; " class="delBtn ">删除</a>
-                        </td>
-                    </tr>
+                <tbody class="list_body">
+                    <!-- 渲染模板 -->
+                    <script type="text/html" id="list-template">
+                        {{each list curr index}}
+                        <tr data-id="{{curr._id}}">
+                            <td>{{index+1}}</td>
+                            <td><img class="logo" src="{{curr.logo}}" style="width:60px;height: 30px;"></td>
+                            <td class="cposition">{{curr.position}}</td>
+                            <td class="company">{{curr.company}}</td>
+                            <td class="address">{{curr.address}}</td>
+                            <td class="salary">{{curr.salary}}</td>
+                            <td>
+                                <a href="#" class="editBtn btn-modify" data-toggle="modal" data-target="#modify_myModal">修改</a>
+                                <a href="javascript:;" class="delBtn">删除</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </script>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation ">
+            <!-- 翻页按钮 -->
+            <nav aria-label="Page navigation">
                 <ul class="pagination pull-right" id="pagination">
                     <li id="page_up" class="prevPage">
                         <a href="javascript:;" class="prevPage">&laquo;</a>
                     </li>
-                    <li class="active"><a href="javascript:;">1</a></li>
-                    <!-- <li><a href="javascript:;">2</a></li> -->
-                    <li id="page_next" class="nextPage"><a href="javascript:;" class="nextPage">&raquo;</a></li>
+                    <li class="active"><a href="javascript:;" class="Page_a">1</a></li>
+                    <li><a href="javascript:;" class="Page_a">2</a></li>
+                    <li><a href="javascript:;" class="Page_a">3</a></li>
+                    <li><a href="javascript:;" class="Page_a">4</a></li>
+                    <li><a href="javascript:;" class="Page_a">5</a></li>
+                    <li id="page_next" class="nextPage">
+                        <a href="javascript:;" class="nextPage">&raquo;</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -73,14 +77,83 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">添加职位信息</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form class="form-addPosition">
+                        <div class="form-group">
+                            <label for="addLogo">公司logo</label>
+                            <input type="file" class="form-control" name="logo" id="addLogo" placeholder="未选择任何文件">
+                        </div>
+                        <div class="form-group">
+                            <label for="addName">职位名称</label>
+                            <input type="text" class="form-control" name="position" id="addName" placeholder="输入职位名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="addFirm">公司名称</label>
+                            <input type="text" class="form-control" name="firm" id="addFirm" placeholder="输入公司名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="addWork">工作经验</label>
+                            <input type="text" class="form-control" name="Work" id="addWork" placeholder="输入工作经验">
+                        </div>
+                        <div class="form-group">
+                            <label for="addType">职位类型</label>
+                            <input type="text" class="form-control" name="Type" id="addType" placeholder="输入职位类型">
+                        </div>
+                        <div class="form-group">
+                            <label for="addPlace">工作地点</label>
+                            <input type="text" class="form-control" name="Place" id="addPlace" placeholder="输入工作地点">
+                        </div>
+                        <div class="form-group">
+                            <label for="addMoney">岗位薪资</label>
+                            <input type="text" class="form-control" name="Money" id="addMoney" placeholder="输入岗位薪资">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn-addPosition">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 修改 -->
+    <div class="modal fade" id="modify_myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改职位信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-modify">
+                        <input type="hidden" name="_id" id="modifyinput">
+                        <div class="form-group">
+                            <label for="modifyLogo">公司logo(<span id="form-logo"></span>)</label>
+                            <input type="file" class="form-control" name="logo" id="modifyLogo" placeholder="未选择任何文件">
+                        </div>
+                        <div class="form-group">
+                            <label for="modifyName">职位名称</label>
+                            <input type="text" class="form-control" name="position" id="modifyName" placeholder="输入职位名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="modifyFirm">公司名称</label>
+                            <input type="text" class="form-control" name="firm" id="modifyFirm" placeholder="输入公司名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="modifyPlace">工作地点</label>
+                            <input type="text" class="form-control" name="Place" id="modifyPlace" placeholder="输入工作地点">
+                        </div>
+                        <div class="form-group">
+                            <label for="modifyMoney">岗位薪资</label>
+                            <input type="text" class="form-control" name="Money" id="modifyMoney" placeholder="输入岗位薪资">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">修改</button>
                 </div>
             </div>
         </div>

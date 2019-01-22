@@ -1,7 +1,13 @@
 define(["jquery"], function() {
     function LoginModal() {
         this.createDOM();
-        this.logListeners();
+        this.addListeners();
+    }
+    String.prototype.IsUserName = function() { //登录验证用户名
+        return (/^[\u4E00-\u9FA5a-zA-Z0-9_]*$/).test(this);
+    }
+    String.prototype.IsEmail = function() { //验证邮箱   
+        return (/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(this));
     }
     LoginModal.template = `<!-- Modal 登录-->
     <div class="modal fade" id="login_myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -12,7 +18,7 @@ define(["jquery"], function() {
                     <h4 class="modal-title" id="myModalLabel">用户登录</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger hidden  login-error">用户名或密码错误</div>
+                    <div class="alert alert-danger hidden  login-error"></div>
                     <form class="form-login">
                         <div class="form-group">
                             <label for="login_username">用户名</label>
@@ -37,21 +43,43 @@ define(["jquery"], function() {
             $("body").append(LoginModal.template);
         },
         //创建登录监听事件
-        logListeners() {
-            $(".btn-login").on("click", this.logHandle);
+        addListeners() {
+            $("#login_password").on('keydown', (e) => { //回车键登录
+                if (e.keyCode == 13) {
+                    this.logHandler();
+                }
+            });
+            $(".btn-login").on("click", this.logHandler);
         },
         //登录处理
-        logHandle() {
+        logHandler() {
+            //DOTO、处理登录验证
+            var
+                $username = $("#login_username"),
+                $password = $("#login_password");
+            /* $username.on("blur", () => {
+                if ($username.val() === "") {
+                    $("#login_username").focus();
+                    $(".login-error").removeClass("hidden").text("不输，你试试");
+                } else {
+                    $(".login-error").addClass("hidden").text("");
+                }
+            }); */
+            var b = "1652270921@qq.com";
+            console.log(b.IsEmail());
+
             const
                 url = "http://rap2api.taobao.org/app/mock/124733/api/users/login.do",
                 data = $(".form-login").serialize();
             $.post(url, data, (res) => {
                 if (res.res_body === 0) { //用户名或密码错误
                     console.log("失败");
-                    $(".login-error").removeClass("hidden");
+                    $(".login-error").text("登录失败！").removeClass("hidden");
                 } else { //登录成功
                     console.log("成功");
                     $("#login_myModal").modal("hide");
+                    sessionStorage.logUser = res.res_body.data.username;
+                    location.reload();
                 }
             }, "json");
         }

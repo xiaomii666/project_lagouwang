@@ -6,7 +6,8 @@ require.config({ //定义模块
         swiper: "libs/swiper/js/swiper.min",
         header: "js/component/header",
         login: "js/component/login-modal",
-        register: "js/component/register-modal"
+        register: "js/component/register-modal",
+        template: "libs/art-template/template-web"
     },
     //垫片、不符合AMD规范的
     shim: {

@@ -1,5 +1,5 @@
 require(["../config"], function() {
-    require(["bootstrap", "header"], function() {
+    require(["jquery", "bootstrap", "header"], function() {
         $(function() {
             //构造函数
             function Index() {

@@ -10,3 +10,10 @@
     padding-left: 50px;
     padding-right: 50px;
 }
+
+.login_success li span {
+    position: absolute;
+    color: #fff;
+    top: 30%;
+    left: -35%;
+}
