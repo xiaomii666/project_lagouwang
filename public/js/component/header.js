@@ -22,7 +22,7 @@ define(["jquery", "login", "register", "bootstrap"], function($, Log, Reg) {
                     <li data-toggle="modal" data-target="#register_myModal"><a href="#">注册</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right login_success hidden">
-                    <li><span>欢迎您，</span><a href="#"></a></li>
+                    <li><a href="#"></a></li>
                     <li><a href="#" class="login_out">注销</a></li>
                 </ul>
             </div>
@@ -46,7 +46,7 @@ define(["jquery", "login", "register", "bootstrap"], function($, Log, Reg) {
                 const user = sessionStorage.logUser;
                 if (user) {
                     $(".login_success").removeClass("hidden")
-                        .find("a:first").text(user).end()
+                        .find("a:first").html("<span>欢迎您，</span>" + user).end()
                         .siblings(".login_not").remove();
                 } else {
                     this.createModal();
@@ -56,8 +56,10 @@ define(["jquery", "login", "register", "bootstrap"], function($, Log, Reg) {
             addListener() {
                 $(".login_out").on("click", this.logoutHandler);
             },
+            //用户注销
             logoutHandler() {
-                const url = "http://rap2api.taobao.org/app/mock/124733/api/users/logout.do";
+                const //url = "http://rap2api.taobao.org/app/mock/124733/api/users/logout.do";
+                    url = "/api/users/logout.do";
                 $.get(url, (res) => {
                     //删除本地的存储数据
                     sessionStorage.removeItem("logUser");

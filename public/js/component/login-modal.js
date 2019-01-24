@@ -66,17 +66,16 @@ define(["jquery"], function() {
                 }
             }); */
             var b = "1652270921@qq.com";
-            console.log(b.IsEmail());
+            //console.log(b.IsEmail());
 
+            //url = "http://rap2api.taobao.org/app/mock/124733/api/users/login.do",
             const
-                url = "http://rap2api.taobao.org/app/mock/124733/api/users/login.do",
+                url = "/api/users/login.do",
                 data = $(".form-login").serialize();
             $.post(url, data, (res) => {
-                if (res.res_body === 0) { //用户名或密码错误
-                    console.log("失败");
-                    $(".login-error").text("登录失败！").removeClass("hidden");
+                if (res.res_body.status === 0) { //用户名或密码错误
+                    $(".login-error").text("用户名或密码错误！").removeClass("hidden");
                 } else { //登录成功
-                    console.log("成功");
                     $("#login_myModal").modal("hide");
                     sessionStorage.logUser = res.res_body.data.username;
                     location.reload();

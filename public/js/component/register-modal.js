@@ -12,6 +12,7 @@ define(["jquery"], function() {
                     <h4 class="modal-title" id="myModalLabel">用户注册</h4>
                 </div>
                 <div class="modal-body">
+                <div class="alert alert-danger hidden  login-error"></div>
                     <form class="form-register">
                         <div class="form-group">
                             <label for="reg_username">用户名</label>
@@ -30,7 +31,6 @@ define(["jquery"], function() {
                             <input type="email" class="form-control" name="eamil" id="reg_Email" placeholder="输入E-mail地址">
                         </div>
                     </form>
-                    <div class="alert alert-danger hidden login-error"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -38,7 +38,7 @@ define(["jquery"], function() {
                 </div>
             </div>
         </div>
-    </div>;`;
+    </div>;`
     $.extend(RegisterModal.prototype, {
         //动态创建注册模态框
         createDom() {
@@ -50,15 +50,17 @@ define(["jquery"], function() {
         },
         //注册处理
         regHandle() {
+            //url = "http://rap2api.taobao.org/app/mock/124733/api/users/login.do",
             const
-                url = "http://rap2api.taobao.org/app/mock/124733/api/users/login.do",
+                url = "/api/users/register.do",
                 data = $(".form-register").serialize();
-            console.log(data);
             $.post(url, data, (res) => {
                 if (res.res_body.status === 0) {
-                    console.log(0);
+                    $(".login-error").text(res.res_body.message).removeClass("hidden");
                 } else {
-                    console.log(1);
+                    location.href = "/";
+                    $("#register_myModal").modal("hide");
+                    location.reload();
                 }
             }, "json");
         }
