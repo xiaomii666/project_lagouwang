@@ -27,7 +27,7 @@ require(["../config"], function() {
                 },
                 //添加的处理
                 addPositionHandler() {
-                    const url = "http://rap2api.taobao.org/app/mock/124733/api/positions/add.do";
+                    const url = "/api/positions/add.do";
                     /*const data = $(".form-addPosition").serialize();//处理普通文本数据
                     $.post(url, data, (res) => {
                         console.log(res);
